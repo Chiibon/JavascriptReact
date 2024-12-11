@@ -44,7 +44,7 @@ const Faq = () => {
               
             </div>
           </div>
-        </div>¨
+        </div>
 
         <div className='second-column'>
           <div className='accordion'>
