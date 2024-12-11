@@ -1,58 +1,32 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
-const menuBtn = document.querySelector('.menu-btn')
-const mainMenu = document.querySelector('#main-menu')
-const darkModeSwitch = document.querySelector('#darkmode-switch')
-const hasSetDarkMode = localStorage.getItem('darkmode')
-
-menuBtn.addEventListener('click',() => {
-  const isExpanded = menuBtn.getAttribute('aria-expanded') === 'true'
-  if (isExpanded) {
-    menuBtn.setAttribute('aria-expanded', false)
-    mainMenu.addEventListener('animationed', () => {
-      mainMenu.classList.add('hide')
-    }, {once: true})
-  }
-  else {
-    mainMenu.classList.remove('hide')
-    menuBtn.setAttribute('aria-expanded', true)
-  }
-})
-
-if(hasSetDarkMode == null) {
-  if(window.matchMedia('prefers-color-scheme: dark').matches) {
-    enableDarkMode()
-  }
-  else {
-    disableDarkMode()
-  }
-} else if (hasSetDarkMode === 'on') {
-  enableDarkMode()
-} else if (hasSetDarkMode === 'off') {
-  disableDarkMode()
-}
-
-darkModeSwitch.addEventListener('change', () => {
-  if(darkModeSwitch.checked) {
-    document.documentElement.classList.add('dark')
-    localStorage.setItem('darkmode', 'on')
-  }
-  else {
-    document.documentElement.classList.remove('dark')
-    localStorage.setItem('darkmode', 'off')
-  }
-})
-
-function enableDarkMode() {
-  darkModeSwitch.checked = true
-  document.documentElement.classList.add('dark')
-}
-function disableDarkMode() {
-  darkModeSwitch.checked = false
-  document.documentElement.classList.remove('dark')
-}
 
 const Header = () => {
+  const [isDarkMode, setIsDarkMode] = useState(false)
+  
+  useEffect(() => {
+    const storedThemeMode = localStorage.getItem('themeMode')
+    if (storedThemeMode === 'dark' || (!storedThemeMode && window.matchMedia ('(prefers-color-scheme: dark)').matches)) {
+      setIsDarkMode(true)
+      document.documentElement.classList.add('dark')
+    }
+    else {
+      setIsDarkMode(false)
+      document.documentElement.classList.remove('light')
+    }
+  }, [])
+  const handleThemeToggle = () => {
+    if (isDarkMode) {
+      setIsDarkMode(false)
+      localStorage.setItem('themeMode', 'light')
+      document.documentElement.classList.remove('dark')
+  } else {
+      setIsDarkMode(true)
+      localStorage.setItem('themeMode', 'dark')
+      document.documentElement.classList.add('dark')
+  }
+}
+
   return (
   <div className="wrapper">
     <nav className="main-nav" aria-label='main navigation'>
@@ -65,7 +39,7 @@ const Header = () => {
         <div className="darkmode-toggle">
           <p>Dark Mode</p>
           <label className="toggle">
-            <input type="checkbox" id="darkmode-switch"></input>
+            <input type="checkbox" id="darkmode-switch" checked={isDarkMode} onChange={handleThemeToggle}></input>
             <span className="slider"></span>
             </label>
         </div>

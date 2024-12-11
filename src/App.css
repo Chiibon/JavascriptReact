@@ -693,9 +693,22 @@ ol, ul {
 
   /*FAQ*/
 
+
+  .first-column {
+    display: relative;
+  }
   .faq {
     margin-top: 5em;
+    display: inline;
   }
+
+  .contact-options {
+    position: relative;
+    margin: 1em;
+    width: 196px;
+    height: 166px;
+  }
+
   .phone-icon {
     margin-top: 5em;
     height: 4em;
@@ -721,8 +734,13 @@ ol, ul {
   }
 
   .icon-r {
-    display: flex;
+    position: relative;
+    display: inline;
     align-items: center;
     justify-content: center;
-    gap: 1rem;
+    height: 1em;
+    width: 1em;
+    flex-wrap: nowrap;
   }
+
+  
